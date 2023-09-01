@@ -1,7 +1,5 @@
 from PPlay.window import*
 
-
-while True:
-
-    janela = Window(200,200)
-    janela.set_title('João André Campos Watanabe')
+janela = Window(800,500)
+janela.set_title('João André Campos Watanabe')
+janela.delay(3000)
