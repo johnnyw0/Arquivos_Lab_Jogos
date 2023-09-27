@@ -55,7 +55,7 @@ while True:
         bola2.y = 0
         vely2 *= -1
 
-
+#jbbhhbh
     bola.draw()
     bola2.draw()
     janela.update()
