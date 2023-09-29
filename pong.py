@@ -37,14 +37,14 @@ while True:
     bola.move_x(velx*janela.delta_time())
     bola.move_y(vely*janela.delta_time())
 
-    if teclado.key_pressed("up"):
+    if teclado.key_pressed("W"):
             padE.move_y(velPcima*janela.delta_time())
-    if teclado.key_pressed("down"):
+    if teclado.key_pressed("S"):
         padE.move_y(velPbaixo*janela.delta_time())
 
-    if teclado.key_pressed("W"):
+    if teclado.key_pressed("up"):
         padD.move_y(velPcima*janela.delta_time())
-    if teclado.key_pressed("S"):
+    if teclado.key_pressed("down"):
         padD.move_y(velPbaixo*janela.delta_time())
 
     if Collision.collided(bola, padE):
