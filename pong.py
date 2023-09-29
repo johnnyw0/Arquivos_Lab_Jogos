@@ -25,6 +25,8 @@ velPcima = -300
 velPbaixo = 300
 teclado = Window.get_keyboard()
 Colidiu = False
+Parou = False
+espaco = False
 pontosE = 0
 pontosD = 0
 
@@ -47,10 +49,10 @@ while True:
 
     if Collision.collided(bola, padE):
         bola.x = 5 + padE.width
-        velx *= -1
+        velx *= -1.2
     if Collision.collided(bola, padD):
         bola.x = janela.width - 5 - padD.width - bola.width
-        velx *= -1
+        velx *= -1.2
 
 
     #Colisão com a parede de cima e de baixo
@@ -74,18 +76,25 @@ while True:
         velx = vely = 0
         bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
         Colidiu = True
+        Parou = True
         pontosD += 1
     if bola.x + bola.width > janela.width:
         velx = vely = 0
         bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
         Colidiu = True
+        Parou = True
         pontosE += 1
 
 
+    soltou = True
     #Recomeçar com bola no meio e usando espaço
     if Colidiu and teclado.key_pressed("space"):
-        
-        velx = vely = 350
+        soltou = False
+        espaco = True
+    
+    if Parou and soltou and espaco:
+        Parou = False
+        velx = vely = 500
 
     bg.draw()
     padD.draw()
