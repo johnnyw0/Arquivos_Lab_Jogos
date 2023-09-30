@@ -12,7 +12,7 @@ bg = GameImage("png/fundo.png")
 bg.set_position(0, 0)
 
 #Game Objects
-bola = Sprite("png/circle-16.png")
+bola = Sprite("png/bola2.png")
 bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
 padE = Sprite("png/pad.png")
 padE.set_position(5, janela.height/2)
@@ -21,8 +21,8 @@ padD.set_position(janela.width-padD.width-5, janela.height/2)
 
 #Valores absolutos
 velx = vely = 350
-velPcima = -300
-velPbaixo = 300
+velPcima = -350
+velPbaixo = 350
 teclado = Window.get_keyboard()
 Colidiu = False
 Parou = False
@@ -49,10 +49,10 @@ while True:
 
     if Collision.collided(bola, padE):
         bola.x = 5 + padE.width
-        velx *= -1.2
+        velx *= -1.02
     if Collision.collided(bola, padD):
         bola.x = janela.width - 5 - padD.width - bola.width
-        velx *= -1.2
+        velx *= -1.02
 
 
     #Colisão com a parede de cima e de baixo
@@ -76,24 +76,16 @@ while True:
         velx = vely = 0
         bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
         Colidiu = True
-        Parou = True
         pontosD += 1
     if bola.x + bola.width > janela.width:
         velx = vely = 0
         bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
         Colidiu = True
-        Parou = True
         pontosE += 1
 
 
-    soltou = True
     #Recomeçar com bola no meio e usando espaço
     if Colidiu and teclado.key_pressed("space"):
-        soltou = False
-        espaco = True
-    
-    if Parou and soltou and espaco:
-        Parou = False
         velx = vely = 500
 
     bg.draw()
