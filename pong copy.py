@@ -12,11 +12,11 @@ bg.set_position(0, 0)
 bola = Sprite("png/bola.png")
 bola.set_position((janela.height/2)+200, (janela.width/2)-250)
 
-bola2 = Sprite("png/bola.png")
+bola2 = Sprite("png/bola2.png")
 bola2.set_position((janela.height)-200, (janela.width)-250)
 
 velx = vely = 300
-velx2 = vely2 = 500
+velx2 = vely2 = 200
 
 while True:
     bola.move_x(velx*janela.delta_time())
@@ -39,8 +39,10 @@ while True:
 
     if Collision.collided(bola, bola2):
 
-        velx2 *= -1.2
-        vely2 *= -1.2
+        velx2 *= -1.01
+        vely2 *= -1.01
+        velx *= -1.01
+        vely *= -1.01
 
     if bola2.x + bola2.width >= janela.width:
         bola2.x = janela.width - bola2.width
