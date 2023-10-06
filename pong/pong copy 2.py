@@ -43,7 +43,7 @@ while True:
     bola2.move_y(vely2*janela.delta_time())
 
     if teclado.key_pressed("W"):
-            padE.move_y(velPcima*janela.delta_time())
+        padE.move_y(velPcima*janela.delta_time())
     if teclado.key_pressed("S"):
         padE.move_y(velPbaixo*janela.delta_time())
 

@@ -25,8 +25,6 @@ velPcima = -350
 velPbaixo = 350
 teclado = Window.get_keyboard()
 Colidiu = False
-Parou = False
-espaco = False
 pontosE = 0
 pontosD = 0
 
@@ -37,25 +35,30 @@ while True:
     bola.move_x(velx*janela.delta_time())
     bola.move_y(vely*janela.delta_time())
 
+
+        #Movimento do Pad
     if teclado.key_pressed("W"):
             padE.move_y(velPcima*janela.delta_time())
     if teclado.key_pressed("S"):
         padE.move_y(velPbaixo*janela.delta_time())
 
-    if teclado.key_pressed("up"):
-        padD.move_y(velPcima*janela.delta_time())
-    if teclado.key_pressed("down"):
-        padD.move_y(velPbaixo*janela.delta_time())
 
+        #caso tenha P2
+    # if teclado.key_pressed("up"):
+    #     padD.move_y(velPcima*janela.delta_time())
+    # if teclado.key_pressed("down"):
+    #     padD.move_y(velPbaixo*janela.delta_time())
+
+        #Colisão da bola com os Pads
     if Collision.collided(bola, padE):
         bola.x = 5 + padE.width
-        velx *= -1.02
+        velx *= -1.04
     if Collision.collided(bola, padD):
         bola.x = janela.width - 5 - padD.width - bola.width
-        velx *= -1.02
+        velx *= -1.04
 
 
-    #Colisão com a parede de cima e de baixo
+    #Colisão da bola e dos Pads com a parede
     if bola.y + bola.height >= janela.height:
         bola.y = janela.height - bola.height
         vely *= -1
@@ -71,7 +74,20 @@ while True:
     if padD.y + padD.height > janela.height:
         padD.y = janela.height - padD.height
 
-    #Pontuação
+
+        #IA do pad direito
+    if bola.x > janela.width/2 and bola.y < padD.y and velx > 0:
+        padD.move_y(velPcima*janela.delta_time())
+    if bola.x > janela.width/2 and bola.y > padD.y and velx > 0:
+        padD.move_y(velPbaixo*janela.delta_time())
+
+        #IA do pad esquerdo
+    if bola.x < janela.width/2 and bola.y < padE.y and velx < 0:
+        padE.move_y(velPcima*janela.delta_time())
+    if bola.x < janela.width/2 and bola.y > padE.y and velx < 0:
+        padE.move_y(velPbaixo*janela.delta_time())
+
+    #Pontuação e retorno da bola para o centro
     if bola.x < 0:
         velx = vely = 0
         bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
