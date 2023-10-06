@@ -14,15 +14,18 @@ bg.set_position(0, 0)
 #Game Objects
 bola = Sprite("png/bola2.png")
 bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
+bola2 = Sprite("png/bola.png")
+bola2.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
 padE = Sprite("png/pad.png")
 padE.set_position(5, janela.height/2)
 padD = Sprite("png/pad.png")
 padD.set_position(janela.width-padD.width-5, janela.height/2)
 
 #Valores absolutos
-velx = vely = 350
-velPcima = -500
-velPbaixo = 500
+velx1 = vely1 = 350
+velx2 = vely2 = -350
+velPcima = -750
+velPbaixo = 750
 teclado = Window.get_keyboard()
 Colidiu = False
 Parou = False
@@ -34,8 +37,10 @@ pontosD = 0
 #Gameloop
 while True:
     #Movimento da bola
-    bola.move_x(velx*janela.delta_time())
-    bola.move_y(vely*janela.delta_time())
+    bola.move_x(velx1*janela.delta_time())
+    bola.move_y(vely1*janela.delta_time())
+    bola2.move_x(velx2*janela.delta_time())
+    bola2.move_y(vely2*janela.delta_time())
 
     if teclado.key_pressed("W"):
             padE.move_y(velPcima*janela.delta_time())
@@ -49,25 +54,32 @@ while True:
 
     if Collision.collided(bola, padE):
         bola.x = 5 + padE.width
-        velx *= -10
+        velx1 *= -1.1
     if Collision.collided(bola, padD):
         bola.x = janela.width - 5 - padD.width - bola.width
-        velx *= -10
+        velx1 *= -1.1
 
-    if bola.x + bola.width >= janela.width:
-        bola.x = janela.width - bola.width
-        velx *= -1
-    if bola.x < 0:
-        bola.x = 0
-        velx *= -1
+    if Collision.collided(bola2, padE):
+        bola2.x = 5 + padE.width
+        velx2 *= -1.1
+    if Collision.collided(bola2, padD):
+        bola2.x = janela.width - 5 - padD.width - bola2.width
+        velx2 *= -1.1
+
 
     #Colisão com a parede de cima e de baixo
     if bola.y + bola.height >= janela.height:
         bola.y = janela.height - bola.height
-        vely *= -1
+        vely1 *= -1
     if bola.y < 0:
         bola.y = 0
-        vely *= -1
+        vely1 *= -1
+    if bola2.y + bola2.height >= janela.height:
+        bola2.y = janela.height - bola2.height
+        vely2 *= -1
+    if bola2.y < 0:
+        bola2.y = 0
+        vely2 *= -1
     if padE.y < 0:
         padE.y = 0
     if padE.y + padE.height > janela.height:
@@ -79,32 +91,41 @@ while True:
 
     #Pontuação
     if bola.x < 0:
-        velx = vely = 0
         bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
         Colidiu = True
         Parou = True
         pontosD += 1
     if bola.x + bola.width > janela.width:
-        velx = vely = 0
+        bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
+        Colidiu = True
+        Parou = True
+        pontosE += 1
+    if bola2.x < 0:
+        bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
+        Colidiu = True
+        Parou = True
+        pontosD += 1
+    if bola2.x + bola2.width > janela.width:
         bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
         Colidiu = True
         Parou = True
         pontosE += 1
 
 
-    soltou = True
-    #Recomeçar com bola no meio e usando espaço
-    if Colidiu and teclado.key_pressed("space"):
-        soltou = False
-        espaco = True
+    # soltou = True
+    # #Recomeçar com bola no meio e usando espaço
+    # if Colidiu and teclado.key_pressed("space"):
+    #     soltou = False
+    #     espaco = True
     
-    if Parou and soltou and espaco:
-        Parou = False
-        velx = vely = 500
+    # if Parou and soltou and espaco:
+    #     Parou = False
+    #     velx1 = vely = 500
 
-    #bg.draw()
+    bg.draw()
     padD.draw()
     padE.draw()
     bola.draw()
+    bola2.draw()
     janela.draw_text(f"{pontosE}:{pontosD}", janela.width/2, 0, size=40, color=(0,0,0), font_name='Arial', bold=False, italic=False)
     janela.update()

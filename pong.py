@@ -14,6 +14,8 @@ bg.set_position(0, 0)
 #Game Objects
 bola = Sprite("png/bola2.png")
 bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
+bola = Sprite("png/bola.png")
+bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
 padE = Sprite("png/pad.png")
 padE.set_position(5, janela.height/2)
 padD = Sprite("png/pad.png")
