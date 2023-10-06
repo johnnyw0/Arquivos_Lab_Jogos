@@ -12,9 +12,7 @@ bg = GameImage("png/fundo.png")
 bg.set_position(0, 0)
 
 #Game Objects
-bola = Sprite("png/bola2.png")
-bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
-bola = Sprite("png/bola.png")
+bola = Sprite("png/circle-16.png")
 bola.set_position(((janela.width/2)-(bola.width/2)), (janela.height/2)-(bola.height/2))
 padE = Sprite("png/pad.png")
 padE.set_position(5, janela.height/2)
@@ -88,7 +86,7 @@ while True:
 
     #Recomeçar com bola no meio e usando espaço
     if Colidiu and teclado.key_pressed("space"):
-        velx = vely = 500
+        velx = vely = 350
 
     bg.draw()
     padD.draw()
