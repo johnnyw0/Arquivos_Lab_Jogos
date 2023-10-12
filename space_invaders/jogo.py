@@ -4,7 +4,6 @@ import func
 def jogo():
 
     #criando janela do jogo
-
     janela = Window(1280,720)
     janela.set_title('Space Invaders')
     out_menu = True
