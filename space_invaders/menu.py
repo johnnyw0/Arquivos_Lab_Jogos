@@ -24,7 +24,7 @@ exit = GameImage('png/exit.png')
 exit.set_position(janela.width/2-exit.width/2, 550)
 
 
-#Destaque nos botões
+#Destaque nos botõeshgkjhgkjgkj
 d_exit = GameImage('png/dexit.png')
 d_exit.set_position(janela.width/2-d_exit.width/2, 550)
 ddif = GameImage('png/ddif.png')
