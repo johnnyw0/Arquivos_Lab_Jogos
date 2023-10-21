@@ -44,10 +44,10 @@ while True:
 
 
         #caso tenha P2
-    # if teclado.key_pressed("up"):
-    #     padD.move_y(velPcima*janela.delta_time())
-    # if teclado.key_pressed("down"):
-    #     padD.move_y(velPbaixo*janela.delta_time())
+    if teclado.key_pressed("up"):
+        padD.move_y(velPcima*janela.delta_time())
+    if teclado.key_pressed("down"):
+        padD.move_y(velPbaixo*janela.delta_time())
 
         #Colisão da bola com os Pads
     if Collision.collided(bola, padE):
@@ -75,17 +75,17 @@ while True:
         padD.y = janela.height - padD.height
 
 
-        #IA do pad direito
-    if bola.x > janela.width/2 and bola.y < padD.y and velx > 0:
-        padD.move_y(velPcima*janela.delta_time())
-    if bola.x > janela.width/2 and bola.y > padD.y and velx > 0:
-        padD.move_y(velPbaixo*janela.delta_time())
+    #     #IA do pad direito
+    # if bola.x > janela.width/2 and bola.y < padD.y and velx > 0:
+    #     padD.move_y(velPcima*janela.delta_time())
+    # if bola.x > janela.width/2 and bola.y > padD.y and velx > 0:
+    #     padD.move_y(velPbaixo*janela.delta_time())
 
-        #IA do pad esquerdo
-    if bola.x < janela.width/2 and bola.y < padE.y and velx < 0:
-        padE.move_y(velPcima*janela.delta_time())
-    if bola.x < janela.width/2 and bola.y > padE.y and velx < 0:
-        padE.move_y(velPbaixo*janela.delta_time())
+    #     #IA do pad esquerdo
+    # if bola.x < janela.width/2 and bola.y < padE.y and velx < 0:
+    #     padE.move_y(velPcima*janela.delta_time())
+    # if bola.x < janela.width/2 and bola.y > padE.y and velx < 0:
+    #     padE.move_y(velPbaixo*janela.delta_time())
 
     #Pontuação e retorno da bola para o centro
     if bola.x < 0:
