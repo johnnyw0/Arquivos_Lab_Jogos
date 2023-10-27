@@ -5,10 +5,12 @@ janela = Window(1280,720)
 janela.set_title('Space Invaders')
 teclado = Window.get_keyboard()
 
+
+#Função para voltar ao menu
 def voltar_menu():
     return False if teclado.key_pressed("esc") else True
 
-
+#Função de atirar
 def atirar(nave, lista):
 
 

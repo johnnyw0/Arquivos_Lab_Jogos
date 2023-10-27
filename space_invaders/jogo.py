@@ -26,18 +26,24 @@ def jogo():
     recarga = 0.2
 
     while out_menu:
+
         bg.draw()
         nave.draw()
-        recarga += janela.delta_time()
 
+        #Movimentação da nave
         if teclado.key_pressed("right"):
             nave.move_x(velD*janela.delta_time())
         if teclado.key_pressed("left"):
             nave.move_x(velE*janela.delta_time())
 
+
+        #Comando para atirar com tempo de recarga
+        recarga += janela.delta_time()
+
         if teclado.key_pressed("space") and recarga > 0.2:
             tiros = atirar(nave, tiros)
             recarga = 0
+
 
         if tiros != []:
             for tiro in tiros:
@@ -45,11 +51,6 @@ def jogo():
                 tiro.y -= veltiro*janela.delta_time()
 
 		
-
-
-
-
-
 
         out_menu = voltar_menu()
         janela.update()
