@@ -14,7 +14,7 @@ def voltar_menu():
 def atirar(nave, lista):
 
 
-    bala = Sprite("png/tiro.png")
+    bala = Sprite("pngteste/shot.png")
     bala.x = nave.x + nave.width/2
     bala.y = nave.y - bala.height
 

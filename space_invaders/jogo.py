@@ -7,14 +7,14 @@ from func import*
 def jogo():
 
     #criando janela do jogo
-    janela = Window(1280,720)
+    janela = Window(564,772)
     janela.set_title('Space Invaders')
-    bg = GameImage("png/space.png")
+    bg = GameImage("pngteste/game_bg.jpg")
     out_menu = True
     teclado = Window.get_keyboard()
 
     #Nave e tiro
-    nave = Sprite("png/nave.png")
+    nave = Sprite("pngteste/navi_smol.png")
     nave.x = (janela.width/2)-(nave.width/2)
     nave.y = janela.height-100
     tiros = []
@@ -35,6 +35,10 @@ def jogo():
             nave.move_x(velD*janela.delta_time())
         if teclado.key_pressed("left"):
             nave.move_x(velE*janela.delta_time())
+        if nave.x < 0:
+            nave.x = 0
+        if nave.x + nave.width > janela.width:
+            nave.x = janela.width - nave.width
 
 
         #Comando para atirar com tempo de recarga
