@@ -13,8 +13,8 @@ bg = GameImage('pngteste/settings_bg.jpg')
 
 #Botões e título do jogo que estão no menu            
 title = GameImage('pngteste/title.png')
-title.set_position(janela.width/2-title.width/2, 100)   #O título é espaçado de 100 pixels do começo da janela, o botão de jogar é espaçado 150 pixels do título
-play = GameImage('pngteste/play.png')                        #e os botões tem espaçamento de 100 pixels entre si
+title.set_position(janela.width/2-title.width/2, 100)   
+play = GameImage('pngteste/play.png')                        
 play.set_position(janela.width/2-play.width/2, 250)
 dif = GameImage('pngteste/dif.png')
 dif.set_position(janela.width/2-dif.width/2, 350)
