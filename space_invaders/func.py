@@ -65,3 +65,53 @@ def movimento_matriz(matriz, velX, velY, nave, janela):
 				alien.y += velY
 	
 	return matriz, velX, c_base
+
+
+def limites_matriz(lista_de_aliens):
+
+	listaX = []
+	listaY = []
+	
+	for linha in lista_de_aliens: #foi bem aqui que eu destrui a otimização do meu jogo
+		for alien in linha:
+		
+			listaX.append(alien.x)
+			listaY.append(alien.y)
+	
+	minX = min(listaX)
+	maxX = max(listaX) + lista_de_aliens[0][0].x
+	minY = min(listaY)
+	maxY = max(listaY) + lista_de_aliens[0][0].y
+	
+	return minX, maxX, minY, maxY
+		
+		
+#tiro da nave no monstro
+def acerto_tiro(lista_de_tiros, lista_de_aliens, pontos):
+	
+	minX, maxX, minY, maxY = limites_matriz(lista_de_aliens)
+	
+	for tiro in lista_de_tiros:
+		
+		if (tiro.x >= minX and tiro.x <= maxX) and (tiro.y >= minY and tiro.y <= maxY):
+			for i in range(len(lista_de_aliens) - 1, -1, -1):
+				
+				if (lista_de_aliens[i] != []):
+					minX, maxX, minY, maxY = limites_matriz(lista_de_aliens)
+					
+					for alien in lista_de_aliens[i]:
+					
+						if (tiro.collided(alien) and (tiro in lista_de_tiros)):
+							lista_de_tiros.remove(tiro)
+							pontos += 25
+							
+							if (alien.total_frames == 1):
+								lista_de_aliens[i].remove(alien)
+								
+
+				if (lista_de_aliens[i] == []):
+					lista_de_aliens.pop(i)
+					
+				
+
+	return pontos

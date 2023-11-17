@@ -2,6 +2,7 @@ from PPlay.window import*
 from PPlay.sprite import*
 from PPlay.gameimage import*
 from PPlay.keyboard import*
+from PPlay.collision import*
 from func import*
 
 def jogo():
@@ -34,12 +35,25 @@ def jogo():
     recarga = 0.2
     status = True
     fps = 60
+    pontos = 0
     clock = pygame.time.Clock()
+
+
+
+
+
+
 
     while out_menu:
 
         bg.draw()
         nave.draw()
+
+
+
+
+
+
 
         #Movimentação da nave
         if teclado.key_pressed("right"):
@@ -52,6 +66,12 @@ def jogo():
             nave.x = janela.width - nave.width
 
 
+
+
+
+
+
+
         #Comando para atirar com tempo de recarga
         recarga += janela.delta_time()
 
@@ -59,13 +79,17 @@ def jogo():
             tiros = atirar(nave, tiros)
             recarga = 0
 
-
         if tiros != []:
             for tiro in tiros:
                 tiro.draw()
                 tiro.y -= veltiro*janela.delta_time()
-
 		
+
+
+
+
+
+
         #Criando a matriz de inimigos
         if matriz_inimigos == []:
 
@@ -73,17 +97,31 @@ def jogo():
 
         if matriz_inimigos != []:
 
-            for i in range(linhas):
-                for j in range(colunas):
-                    matriz_inimigos[i][j].draw()
+            # for i in range(linhas):
+            #     for j in range(colunas):
+            #         matriz_inimigos[i][j].draw()
+
+            for linha in matriz_inimigos:
+                for coluna in linha:
+                    coluna.draw()
 
             matriz_inimigos, velIx, status = movimento_matriz(matriz_inimigos, velIx, velIy, nave, janela)
+
+        if tiros != []:
+            pontos = acerto_tiro(tiros, matriz_inimigos, pontos)
+
+
+
+
+
 
         if status == False:
             janela.close()
 
         clock.tick(fps)
+
         janela.draw_text(f"FPS: {fps}", 100, janela.height - 50, 10, (255,255,255), "Arial")
+        janela.draw_text(f"Pontuação: {pontos}", 100, janela.height - 40, 10, (255,255,255), "Arial")
 
         out_menu = voltar_menu()
         janela.update()
