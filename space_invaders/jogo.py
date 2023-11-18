@@ -22,8 +22,8 @@ def jogo():
 
     #Inimigos
     matriz_inimigos = []
-    linhas = 3
-    colunas = 5
+    linhas = 4
+    colunas = 5 
     velIx = 100
     velIy = 30
 
