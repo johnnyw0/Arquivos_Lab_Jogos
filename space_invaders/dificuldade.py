@@ -8,28 +8,28 @@ def diff():
 
 
     #Resolução da janela e background
-    janela = Window(1280,720)
+    janela = Window(564,772)
     janela.set_title('Space Invaders')
-    bg = GameImage('png/space.png')
+    bg = GameImage('pngteste/space.png')
     mouse = Window.get_mouse()
 
 
     #Botões e título do jogo que estão no menu
-    title = GameImage('png/title.png')
+    title = GameImage('pngteste/title.png')
     title.set_position(janela.width/2-title.width/2, 100)
-    easy = GameImage('png/easy.png')                        
+    easy = GameImage('pngteste/easy.png')                        
     easy.set_position(janela.width/2-easy.width/2, 250)
-    medium = GameImage('png/medium.png')
+    medium = GameImage('pngteste/medium.png')
     medium.set_position(janela.width/2-medium.width/2, 350)
-    hard = GameImage('png/hard.png')
+    hard = GameImage('pngteste/hard.png')
     hard.set_position(janela.width/2-hard.width/2, 450)
 
 
-    deasy = GameImage('png/deasy.png')                        
+    deasy = GameImage('pngteste/deasy.png')                        
     deasy.set_position(janela.width/2-deasy.width/2, 250)
-    dmedium = GameImage('png/dmedium.png')
+    dmedium = GameImage('pngteste/dmedium.png')
     dmedium.set_position(janela.width/2-dmedium.width/2, 350)
-    dhard = GameImage('png/dhard.png')
+    dhard = GameImage('pngteste/dhard.png')
     dhard.set_position(janela.width/2-dhard.width/2, 450)
 
     #Sentinela que verifica se está no menu principal ou não
