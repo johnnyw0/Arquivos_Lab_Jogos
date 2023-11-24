@@ -4,6 +4,7 @@ from PPlay.gameimage import*
 from PPlay.keyboard import*
 from PPlay.collision import*
 from func import*
+import random
 
 def jogo():
 
@@ -15,13 +16,16 @@ def jogo():
     teclado = Window.get_keyboard()
 
     #Nave e tiro
-    nave = Sprite("pngteste/navi_smol.png")
+    nave = Sprite("pngteste/nave.png")
     nave.x = (janela.width/2)-(nave.width/2)
     nave.y = janela.height-100
     tiros = []
+    cronometro = 0
+    limite_inv = 2
 
     #Inimigos
     matriz_inimigos = []
+    tiros_inimigos = []
     linhas = 4
     colunas = 5 
     velIx = 100
@@ -34,8 +38,10 @@ def jogo():
     veltiro = 400
     recarga = 0.5
     status = True
+    inv = False
     fps = 60
     pontos = 0
+    vida = 3
     clock = pygame.time.Clock()
 
 
@@ -48,6 +54,7 @@ def jogo():
 
         bg.draw()
         nave.draw()
+
 
 
 
@@ -86,7 +93,7 @@ def jogo():
 		
 
 
-
+    
 
 
 
@@ -97,13 +104,45 @@ def jogo():
 
         if matriz_inimigos != []:
 
-            # for i in range(linhas):
-            #     for j in range(colunas):
-            #         matriz_inimigos[i][j].draw()
-
             for linha in matriz_inimigos:
                 for coluna in linha:
                     coluna.draw()
+
+            if recarga > 0.5:    
+                i = random.randint(0, 3)
+                j = random.randint(0, 4)
+
+                alien_esc = matriz_inimigos[i][j]
+                tiro = Sprite("pngteste/shot_enemy.png")
+                tiro.x = alien_esc.x + alien_esc.width/2
+                tiro.y = alien_esc.y + alien_esc.height
+                tiros_inimigos.append(tiro)
+                recarga = 0
+
+
+            cronometro += janela.delta_time()
+            if tiros_inimigos != []:
+
+                for tiro in tiros_inimigos:
+                    tiro.draw()
+                    tiro.y += veltiro*janela.delta_time()
+                    if Collision.collided(tiro, nave) and not inv:
+                        vida -= 1
+                        nave = Sprite("pngteste/nave2.png")
+                        nave.x = (janela.width/2)-(nave.width/2)
+                        nave.y = janela.height-100
+                        tiros_inimigos.remove(tiro)
+                        inv = True
+                        cronometro = 0
+
+
+            if cronometro > limite_inv and inv:
+                inv = False
+                x = nave.x
+                y = nave.y
+                nave = Sprite("pngteste/nave.png")
+                nave.set_position(x, y)
+                
 
             matriz_inimigos, velIx, status = movimento_matriz(matriz_inimigos, velIx, velIy, nave, janela)
 
@@ -112,10 +151,10 @@ def jogo():
 
 
 
-
-
-
         if status == False:
+            janela.close()
+
+        if vida == 0:
             janela.close()
 
         clock.tick(fps)

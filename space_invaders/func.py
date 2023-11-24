@@ -1,5 +1,6 @@
 from PPlay.window import*
 from PPlay.sprite import*
+import random
 
 janela = Window(1280,720)
 janela.set_title('Space Invaders')
@@ -13,7 +14,6 @@ def voltar_menu():
 #Função de atirar
 def atirar(nave, lista):
 
-
     bala = Sprite("pngteste/shot.png")
     bala.x = nave.x + nave.width/2
     bala.y = nave.y - bala.height
@@ -21,6 +21,7 @@ def atirar(nave, lista):
     lista.append(bala)
 
     return lista
+
 
 
 #Criar inimigos
@@ -37,6 +38,23 @@ def cria_mat(matriz, lin, col):
 		matriz.append(linhas)
 	
 	return matriz
+
+
+#Tiro do monstro
+
+# def tiro_monstro(lista, alien):
+
+# 	tiro = Sprite("pngteste/shot_enemy.png")
+# 	tiro.x = alien.x + alien.width/2
+# 	tiro.y = alien.y + alien.height
+
+# 	lista.append(tiro)
+
+# 	return lista
+
+
+
+
 
 #Movimento da matriz de inimigos
 def colisao_matriz(matriz, velX, nave, janela):
@@ -72,7 +90,7 @@ def limites_matriz(lista_de_aliens):
 	listaX = []
 	listaY = []
 	
-	for linha in lista_de_aliens: #foi bem aqui que eu destrui a otimização do meu jogo
+	for linha in lista_de_aliens:
 		for alien in linha:
 		
 			listaX.append(alien.x)
