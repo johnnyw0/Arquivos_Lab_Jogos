@@ -31,8 +31,8 @@ def jogo():
     #Valores absolutos
     velD = 600
     velE = -600
-    veltiro = 750
-    recarga = 0.2
+    veltiro = 400
+    recarga = 0.5
     status = True
     fps = 60
     pontos = 0
@@ -75,7 +75,7 @@ def jogo():
         #Comando para atirar com tempo de recarga
         recarga += janela.delta_time()
 
-        if teclado.key_pressed("space") and recarga > 0.2:
+        if teclado.key_pressed("space") and recarga > 0.5:
             tiros = atirar(nave, tiros)
             recarga = 0
 
