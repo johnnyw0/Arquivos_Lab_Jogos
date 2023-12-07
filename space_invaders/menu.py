@@ -4,6 +4,7 @@ from PPlay.gameimage import*
 from PPlay.mouse import*
 import jogo
 import dificuldade
+import Jogar
 
 
 #Resolução da janela e background
@@ -73,6 +74,7 @@ while i_menu:
         dplay.draw()
 
         if mouse.is_button_pressed(1):
+            #Jogar.jogar()
             jogo.jogo()
 
 

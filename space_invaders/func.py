@@ -31,7 +31,7 @@ def cria_mat(matriz, lin, col):
 		coluna = []
 		for c in range(col):
 			alien = Sprite("pngteste/alien.png")	
-			alien.x = (alien.width + alien.width / 2) * c + 10
+			alien.x = (alien.width + alien.width / 2) * c 
 			alien.y = (alien.height + alien.height / 2)  * l
 			coluna.append(alien)
 
@@ -46,23 +46,38 @@ def movimento_aliens(matriz, velX, velY, nave, tela):
     
     for linha in matriz:
         for alien in linha:
-            alien.move_x(velX * tela.delta_time())
-            if (alien.x <= 5):
-                alien.x = 5
-                velX *= -1
-                for linha in matriz:
-                    for alien in linha:
-                        alien.move_y(velY)
-            elif(alien.x + alien.width + 5 >= tela.width):
-                alien.x = tela.width - (alien.width + 5)
-                velX *= -1
-                for linha in matriz:
-                    for alien in linha:
-                        alien.move_y(velY)
-            if (alien.y + alien.height >= nave.y):
-                c_base = True
+	    
+
+        	alien.move_x(velX * tela.delta_time())
+			
+    for linha in matriz:
+        parou = 0
+        for alien in linha:
+        	if (alien.x < 5):
+				velX *= -1
+				for linha in matriz:
+					for alien in linha:
+						alien.move_y(velY)
+						alien.move_x(velX)
+				parou = 1
+				break
+			elif (alien.x + alien.width + 5 > tela.width):
+				velX *= -1
+				for linha in matriz:
+					for alien in linha:
+						alien.move_y(velY)
+						alien.move_x(velX)
+				parou = 1
+				break
+		if parou == 1:
+			break
+        
+
+
+	if (alien.y + alien.height >= nave.y):
+		c_base = True
     
-    return matriz, velX, c_base
+    return matriz, c_base
 
 
 

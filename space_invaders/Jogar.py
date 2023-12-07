@@ -13,7 +13,7 @@ def cria_matriz(matriz, linhas, colunas):
 	for l in range(linhas):
 		coluna = []
 		for c in range(colunas):
-			alien = Sprite("aliensprite.png", 1)
+			alien = Sprite("pngteste/alien.png", 1)
 				
 			alien.x = (alien.width + alien.width / 2) * c 
 			alien.y = (alien.height + alien.height / 2)  * l
@@ -30,18 +30,18 @@ def movimento_aliens(matriz, velX, velY, nave, tela):
     for linha in matriz:
         for alien in linha:
             alien.move_x(velX * tela.delta_time())
-            if (alien.x <= 5):
+            if (alien.x < 5):
                 alien.x = 5
                 velX *= -1
                 for linha in matriz:
                     for alien in linha:
-                        alien.move_y(velY)
-            elif(alien.x + alien.width + 5 >= tela.width):
+                        alien.y += velY
+            elif(alien.x + alien.width + 5 > tela.width):
                 alien.x = tela.width - (alien.width + 5)
                 velX *= -1
                 for linha in matriz:
                     for alien in linha:
-                        alien.move_y(velY)
+                        alien.y += velY
             if (alien.y + alien.height >= nave.y):
                 colisao_base = True
     
@@ -79,7 +79,7 @@ def jogar():
     teclado = Window.get_keyboard()
     
     # sprites utilizados
-    nave = Sprite("sprite_ship_3.png")
+    nave = Sprite("pngteste/navi_smol.png")
 
     centro = largura/2 - nave.width/2
     # coordenadas da nave
@@ -115,7 +115,7 @@ def jogar():
         
         # condições de criação dos tiros 
         if (teclado.key_pressed("SPACE") and (cont >= 0.25)):
-            balas = Sprite("Tiro_Laser_Space_Invaders22.png")
+            balas = Sprite("pngteste/shot.png")
             tiros.append(balas)
             balas.set_position(nave.x + nave.width//2 - 5, 530)
             cont = 0
@@ -160,7 +160,7 @@ def jogar():
                 j = random.randint(0, len(matriz_aliens[i]) - 1)
 
                 alien_escolhido = matriz_aliens[i][j]
-                tiro_alien = Sprite("Tiro_Laser_Space_Invaders22.png")
+                tiro_alien = Sprite("pngteste/shot.png")
                 tiro_alien.set_position(alien_escolhido.x + alien_escolhido.width/2, alien_escolhido.y + alien_escolhido.height)
                 tiros_aliens.append(tiro_alien)
                 cont_aliens = 0
@@ -172,7 +172,7 @@ def jogar():
                 vidas -= 1
                 tiros_aliens.remove(tiro)
 
-                nave = Sprite("sprite_ship_inv.png")
+                nave = Sprite("pngteste/nave2.png")
                 nave.x = centro
                 nave.y = 540
     
@@ -195,7 +195,7 @@ def jogar():
                 inv_cont = 0
                 invisivel = False
                 posicao = nave.x
-                nave = Sprite("sprite_ship_3.png")
+                nave = Sprite("pngteste/navi_smol.png")
                 nave.x = posicao
                 nave.y = 540
     

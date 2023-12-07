@@ -12,7 +12,6 @@ def jogo():
     janela = Window(564,772)
     janela.set_title('Space Invaders')
     bg = GameImage("pngteste/game_bg.jpg")
-    out_menu = True
     teclado = Window.get_keyboard()
 
     #Nave e tiro
@@ -26,10 +25,10 @@ def jogo():
     #Inimigos
     matriz_inimigos = []
     tiros_inimigos = []
-    linhas = 4
-    colunas = 5 
+    linhas = 5
+    colunas = 5
     velIx = 100
-    velIy = 30
+    velIy = 1
 
 
     #Valores absolutos
@@ -50,7 +49,7 @@ def jogo():
 
 
 
-    while out_menu:
+    while True:
 
         bg.draw()
         nave.draw()
@@ -104,13 +103,13 @@ def jogo():
 
         if matriz_inimigos != []:
 
-            matriz_aliens, velX, fim = movimento_aliens(matriz_aliens, velIx, velIy, nave, janela)
+            matriz_inimigos, velX, c_base = movimento_aliens(matriz_inimigos, velIx, velIy, nave, janela)
 
             for linha in matriz_inimigos:
                 for coluna in linha:
                     coluna.draw()
 
-            if recarga > 0.5:    
+            if recarga > 0.2:    
                 i = random.randint(0, len(matriz_inimigos) - 1)
                 j = random.randint(0, len(matriz_inimigos[i]) - 1)
                 
@@ -152,7 +151,7 @@ def jogo():
 
 
 
-        if status == False:
+        if c_base == True:
             break
 
         if vida == 0:
