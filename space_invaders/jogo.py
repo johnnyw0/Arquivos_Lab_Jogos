@@ -104,13 +104,16 @@ def jogo():
 
         if matriz_inimigos != []:
 
+            matriz_aliens, velX, fim = movimento_aliens(matriz_aliens, velIx, velIy, nave, janela)
+
             for linha in matriz_inimigos:
                 for coluna in linha:
                     coluna.draw()
 
             if recarga > 0.5:    
-                i = random.randint(0, 3)
-                j = random.randint(0, 4)
+                i = random.randint(0, len(matriz_inimigos) - 1)
+                j = random.randint(0, len(matriz_inimigos[i]) - 1)
+                
 
                 alien_esc = matriz_inimigos[i][j]
                 tiro = Sprite("pngteste/shot_enemy.png")
@@ -144,18 +147,16 @@ def jogo():
                 nave.set_position(x, y)
                 
 
-            matriz_inimigos, velIx, status = movimento_matriz(matriz_inimigos, velIx, velIy, nave, janela)
-
         if tiros != []:
             pontos = acerto_tiro(tiros, matriz_inimigos, pontos)
 
 
 
         if status == False:
-            janela.close()
+            break
 
         if vida == 0:
-            janela.close()
+            break
 
         clock.tick(fps)
 

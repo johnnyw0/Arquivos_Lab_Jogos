@@ -28,61 +28,83 @@ def atirar(nave, lista):
 def cria_mat(matriz, lin, col):
 
 	for l in range(lin):
-		linhas = []
+		coluna = []
 		for c in range(col):
 			alien = Sprite("pngteste/alien.png")	
 			alien.x = (alien.width + alien.width / 2) * c + 10
 			alien.y = (alien.height + alien.height / 2)  * l
-			linhas.append(alien)
+			coluna.append(alien)
 
-		matriz.append(linhas)
+		matriz.append(coluna)
 	
 	return matriz
 
 
-#Tiro do monstro
-
-# def tiro_monstro(lista, alien):
-
-# 	tiro = Sprite("pngteste/shot_enemy.png")
-# 	tiro.x = alien.x + alien.width/2
-# 	tiro.y = alien.y + alien.height
-
-# 	lista.append(tiro)
-
-# 	return lista
+def movimento_aliens(matriz, velX, velY, nave, tela):
+    
+    c_base = False
+    
+    for linha in matriz:
+        for alien in linha:
+            alien.move_x(velX * tela.delta_time())
+            if (alien.x <= 5):
+                alien.x = 5
+                velX *= -1
+                for linha in matriz:
+                    for alien in linha:
+                        alien.move_y(velY)
+            elif(alien.x + alien.width + 5 >= tela.width):
+                alien.x = tela.width - (alien.width + 5)
+                velX *= -1
+                for linha in matriz:
+                    for alien in linha:
+                        alien.move_y(velY)
+            if (alien.y + alien.height >= nave.y):
+                c_base = True
+    
+    return matriz, velX, c_base
 
 
 
 
 
 #Movimento da matriz de inimigos
-def colisao_matriz(matriz, velX, nave, janela):
+# def colisao_matriz(matriz, velX, nave, janela):
 	
-	lateral = False
-	base = True
+# 	lateral_esq = lateral_dir = False
+# 	base = True
 	
-	for linha in matriz:
-		for alien in linha:
-			alien.x += velX * janela.delta_time()
-			if (alien.x <= 5 or alien.x + alien.width + 5 >= janela.width):
-				lateral = True
-			if (alien.y + alien.height >= nave.y):
-				base = False
+# 	for linha in matriz:
+# 		for alien in linha:
+# 			alien.x += velX * janela.delta_time()
+# 			if (alien.x <= 5):
+# 				lateral_esq = True
+# 			elif (alien.x + alien.width + 5 >= janela.width):
+# 				lateral_dir = True
+# 			if (alien.y + alien.height >= nave.y):
+# 				base = False
 	
-	return lateral, base
+# 	return lateral_esq, lateral_dir, base
 
-def movimento_matriz(matriz, velX, velY, nave, janela):
+# def movimento_matriz(matriz, velX, velY, nave, janela):
 
-	c_lateral, c_base = colisao_matriz(matriz, velX, nave, janela)
+# 	c_lateral_esq, c_lateral_dir, c_base = colisao_matriz(matriz, velX, nave, janela)
 			
-	if (c_lateral == True):
-		velX *= -1
-		for linha in matriz:
-			for alien in linha: 
-				alien.y += velY
+# 	if (c_lateral_esq == True):
+# 		velX *= -1
+# 		for linha in matriz:
+# 			for alien in linha: 
+# 				alien.x = 5
+# 				alien.y += velY
+
+# 	if (c_lateral_dir == True):
+# 		velX *= -1
+# 		for linha in matriz:
+# 			for alien in linha: 
+# 				alien.x = janela.width - (alien.width - 5)
+# 				alien.y += velY
 	
-	return matriz, velX, c_base
+# 	return matriz, velX, c_base
 
 
 def limites_matriz(lista_de_aliens):
