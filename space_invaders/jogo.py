@@ -27,7 +27,7 @@ def jogo():
     tiros_inimigos = []
     linhas = 5
     colunas = 5
-    velIx = 100
+    velIx = 50
     velIy = 1
 
 
@@ -103,7 +103,7 @@ def jogo():
 
         if matriz_inimigos != []:
 
-            matriz_inimigos, velX, c_base = movimento_aliens(matriz_inimigos, velIx, velIy, nave, janela)
+            matriz_inimigos, c_base = movimento_aliens(matriz_inimigos, velIx, velIy, nave, janela)
 
             for linha in matriz_inimigos:
                 for coluna in linha:

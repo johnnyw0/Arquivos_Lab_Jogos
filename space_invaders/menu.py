@@ -74,8 +74,8 @@ while i_menu:
         dplay.draw()
 
         if mouse.is_button_pressed(1):
-            #Jogar.jogar()
-            jogo.jogo()
+            Jogar.jogar()
+            #jogo.jogo()
 
 
     janela.update()

@@ -42,42 +42,58 @@ def cria_mat(matriz, lin, col):
 
 def movimento_aliens(matriz, velX, velY, nave, tela):
     
-    c_base = False
-    
-    for linha in matriz:
-        for alien in linha:
-	    
+	c_base = False
+	for linha in matriz:
+		for alien in linha:
+			alien.move_x(velX*tela.delta_time())
 
-        	alien.move_x(velX * tela.delta_time())
+			if alien.x < 5:
+				velX *= -1
+				for line in matriz:
+					for alie in line:
+						alie.move_y(velY*tela.delta_time())
+						alie.move_x(velX*tela.delta_time())
 			
-    for linha in matriz:
-        parou = 0
-        for alien in linha:
-        	if (alien.x < 5):
+			elif alien.x + alien.width + 5 > tela.width:
 				velX *= -1
-				for linha in matriz:
-					for alien in linha:
-						alien.move_y(velY)
-						alien.move_x(velX)
-				parou = 1
-				break
-			elif (alien.x + alien.width + 5 > tela.width):
-				velX *= -1
-				for linha in matriz:
-					for alien in linha:
-						alien.move_y(velY)
-						alien.move_x(velX)
-				parou = 1
-				break
-		if parou == 1:
-			break
-        
+				for line in matriz:
+					for alie in line:
+						alie.move_y(velY*tela.delta_time())
+						alie.move_x(velX*tela.delta_time())
+						
+	
+	# parou = 0
+	# for linha in matriz:
+	# 	if parou == 1:
+	# 		break
+		
+	# 	for alien in linha:
+	# 		if alien.x < 5:
+	# 			velX *= -1
+	# 			for line in matriz:
+	# 				for alie in line:
+	# 					alie.move_y(velY*tela.delta_time())
+	# 					alie.move_x(2 *velX*tela.delta_time())
+	# 			parou = 1
+	# 			break
+	# 		elif alien.x + alien.width + 5 > tela.width:
+	# 			velX *= -1
+	# 			for line in matriz:
+	# 				for alie in line:
+	# 					alie.move_y(velY*tela.delta_time())
+	# 					alie.move_x(2 *velX*tela.delta_time())
+	# 			parou = 1
+	# 			break
+		
+	
+	for linha in matriz:
+		for alien in linha:
+			if alien.y + alien.height > nave.y:
+				c_base = True
+	
+	return matriz, c_base
+			
 
-
-	if (alien.y + alien.height >= nave.y):
-		c_base = True
-    
-    return matriz, c_base
 
 
 
