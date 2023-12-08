@@ -25,7 +25,8 @@ def rank():
 
         bg.draw()
 
-        for i in range(5):
+        for i in range(len(lista_ord)):
+            if i == 5: break
             janela.draw_text(f"{lista_ord[i][0]}: {lista_ord[i][1]}", janela.width/2 - 50, 200 + (i * 100), size=24, color=(255, 255, 255), font_name='Arial', bold=False, italic=False)
 
         janela.update()

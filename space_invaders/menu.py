@@ -48,7 +48,7 @@ i_menu = True
 while i_menu:
 
     title.draw()
-    #bg.draw()
+    bg.draw()
     dif.draw()
     rank.draw()
     exit.draw()

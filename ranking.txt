@@ -1,5 +1,3 @@
-gabriel: 525
-gabriel: 200
-gabriel: 300
-gabriel: 400
-gabriel: 800
+Alonso: 125
+Regasi: 0
+João: 150
