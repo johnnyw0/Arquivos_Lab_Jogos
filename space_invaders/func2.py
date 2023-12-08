@@ -5,7 +5,18 @@ import random
 
 
 
+def ordena_arq(arquivo):
+    arq = open(arquivo, 'r')
 
+    linhas = arq.readlines()
+    pessoas = []
+    for linha in linhas:
+        pessoa = linha.split()
+        pessoas.append((pessoa[0], int(pessoa[1])))
+
+    pessoas.sort(key=lambda pessoa: pessoa[1], reverse=True)
+
+    return pessoas
 
 def cria_matriz(matriz, linhas, colunas):
 	
@@ -54,7 +65,7 @@ def colisao_aliens(matriz, tiros):
                 if Collision.collided(tiro, alien):
                     lin.remove(alien)
                     tiros.remove(tiro)  
-                    cont += 1
+                    cont += 25
         if(lin == []): matriz.remove(lin)
             
     return cont
