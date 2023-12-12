@@ -2,7 +2,7 @@ from PPlay.window import*
 from PPlay.sprite import*
 from PPlay.gameimage import*
 from PPlay.mouse import*
-import func
+import func2
 
 def diff():
 
@@ -56,7 +56,6 @@ def diff():
             dhard.draw()
 
         #Voltar para o menu com ESC
-        out_menu = func.voltar_menu()
 
 
 

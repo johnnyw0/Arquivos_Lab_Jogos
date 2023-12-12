@@ -1,0 +1,3 @@
+Alonso: 125
+Regasi: 0
+João: 150

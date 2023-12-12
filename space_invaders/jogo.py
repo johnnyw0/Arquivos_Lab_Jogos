@@ -1,166 +1,215 @@
 from PPlay.window import*
 from PPlay.sprite import*
-from PPlay.gameimage import*
-from PPlay.keyboard import*
 from PPlay.collision import*
-from func import*
+from PPlay.keyboard import*
+from PPlay.gameimage import *
+from func2 import *
 import random
 
-def jogo():
+# inicializando a função "jogar".
+def jogar():
 
-    #criando janela do jogo
-    janela = Window(564,772)
-    janela.set_title('Space Invaders')
+
+
+
+    # definindo as dimensões da janela
+    largura = 564
+    altura = 772
+    janela = Window(largura, altura)
+    janela.set_title("Space Invaders")
     bg = GameImage("pngteste/game_bg.jpg")
-    out_menu = True
     teclado = Window.get_keyboard()
-
-    #Nave e tiro
-    nave = Sprite("pngteste/nave.png")
-    nave.x = (janela.width/2)-(nave.width/2)
-    nave.y = janela.height-100
-    tiros = []
-    cronometro = 0
-    limite_inv = 2
-
-    #Inimigos
-    matriz_inimigos = []
-    tiros_inimigos = []
-    linhas = 4
-    colunas = 5 
-    velIx = 100
-    velIy = 30
-
-
-    #Valores absolutos
-    velD = 600
-    velE = -600
-    veltiro = 400
-    recarga = 0.5
-    status = True
-    inv = False
-    fps = 60
-    pontos = 0
-    vida = 3
-    clock = pygame.time.Clock()
-
-
-
-
-
-
-
-    while out_menu:
-
-        bg.draw()
-        nave.draw()
-
-
-
-
-
-
-
-
-        #Movimentação da nave
-        if teclado.key_pressed("right"):
-            nave.move_x(velD*janela.delta_time())
-        if teclado.key_pressed("left"):
-            nave.move_x(velE*janela.delta_time())
-        if nave.x < 0:
-            nave.x = 0
-        if nave.x + nave.width > janela.width:
-            nave.x = janela.width - nave.width
-
-
-
-
-
-
-
-
-        #Comando para atirar com tempo de recarga
-        recarga += janela.delta_time()
-
-        if teclado.key_pressed("space") and recarga > 0.5:
-            tiros = atirar(nave, tiros)
-            recarga = 0
-
-        if tiros != []:
-            for tiro in tiros:
-                tiro.draw()
-                tiro.y -= veltiro*janela.delta_time()
-		
-
-
     
 
 
 
-        #Criando a matriz de inimigos
-        if matriz_inimigos == []:
+    #Nave e Tiro
+    nave = Sprite("pngteste/nave.png")
+    nave.x = (janela.width/2)-(nave.width/2)
+    nave.y = janela.height-100
+    tiros = []
 
-            matriz_inimigos = cria_mat(matriz_inimigos, linhas, colunas)
+    
 
-        if matriz_inimigos != []:
+    
+    # Inimigos
+    matriz_inimigos = []
+    tiros_inimigos = []
+    tiros_inimigos_esp = []
+    inv = False
+    linhas = 5
+    colunas = 5
 
+
+
+    # Valores absolutos
+    vel_n = 600
+    velX = 100
+    velY = 15
+    clock = pygame.time.Clock()
+    fps = 60
+    vidas = 3
+    recarga = 1
+    rec_inimigo = 0
+    c_base = False
+    paralizado = False
+    cont_especial = 0
+    inv_cont = 0
+    congelado = 0
+
+
+
+
+
+    pontuacao = 0
+    
+    while True:
+        
+        bg.draw()        
+        nave.draw()
+
+        # condições de criação dos tiros 
+        recarga += janela.delta_time()
+        if (teclado.key_pressed("SPACE") and (recarga >= 0.25) and not paralizado):
+            balas = Sprite("pngteste/shot.png")
+            tiros.append(balas)
+            balas.set_position(nave.x + nave.width//2 - 5, 530)
+            recarga = 0
+        
+
+
+        for balas in tiros:
+            balas.move_y(-400 * janela.delta_time()) 
+            if balas.y <= (-1) * balas.height:
+                tiros.remove(balas)
+
+
+
+        if (teclado.key_pressed("left") and not paralizado):
+            nave.x -= vel_n *janela.delta_time()
+
+        if (teclado.key_pressed("right")and not paralizado):
+            nave.x += vel_n *janela.delta_time()
+
+        if (nave.x <= 0):
+            nave.x = 0
+        if (nave.x + nave.width >= janela.width):
+            nave.x = janela.width - nave.width
+        
+        #SEÇÃO PARA CRIAR MATRIZ DE MONSTROS
+		#cria a matriz se ela estiver vazia
+
+        if (not matriz_inimigos):
+            matriz_inimigos = cria_matriz(matriz_inimigos, linhas, colunas)
+			
+        else:
+            matriz_inimigos, velX, c_base = movimento_aliens(matriz_inimigos, velX, velY, nave, janela)
+
+            pontuacao += colisao_aliens(matriz_inimigos, tiros)
+            
             for linha in matriz_inimigos:
                 for coluna in linha:
                     coluna.draw()
 
-            if recarga > 0.5:    
-                i = random.randint(0, 3)
-                j = random.randint(0, 4)
+            # Escolha do alien que irá atirar
+            if rec_inimigo >= 1:
+                i = random.randint(0, len(matriz_inimigos) - 1)
+                j = random.randint(0, len(matriz_inimigos[i]) - 1)
+                alien_escolhido = matriz_inimigos[i][j]
 
-                alien_esc = matriz_inimigos[i][j]
-                tiro = Sprite("pngteste/shot_enemy.png")
-                tiro.x = alien_esc.x + alien_esc.width/2
-                tiro.y = alien_esc.y + alien_esc.height
-                tiros_inimigos.append(tiro)
-                recarga = 0
+                # Criação dos disparos
+                if cont_especial != 3:
+                    tiro_inimigo = Sprite("pngteste/shot_enemy.png")
+                    tiro_inimigo.set_position(alien_escolhido.x + alien_escolhido.width/2, alien_escolhido.y + alien_escolhido.height)
+                    tiros_inimigos.append(tiro_inimigo)
+                    cont_especial += 1
+
+                else:
+                    tiro_especial = Sprite("pngteste/tiro_spec.png")
+                    tiro_especial.set_position(alien_escolhido.x + alien_escolhido.width/2, alien_escolhido.y + alien_escolhido.height)
+                    tiros_inimigos_esp.append(tiro_especial)
+                    cont_especial = 0
+                rec_inimigo = 0
+
+        rec_inimigo += janela.delta_time()
+
+        for tiro in tiros_inimigos:
+            if(Collision.collided(nave, tiro) and not inv):
+                vidas -= 1
+                tiros_inimigos.remove(tiro)
+
+                nave = Sprite("pngteste/nave2.png")
+                nave.x = (janela.width/2 - nave.width/2)
+                nave.y = janela.height - 100
+    
+                inv = True
+
+            tiro.move_y(300 * janela.delta_time()) 
+            if tiro.y >= altura + tiro.height:
+                tiros_inimigos.remove(tiro)
+
+        for tiro in tiros_inimigos_esp:
+            if(Collision.collided(nave, tiro) and not inv):
+                tiros_inimigos_esp.remove(tiro)
+                x = nave.x
+                y = nave.y
+                nave = Sprite("pngteste/nave3.png")
+                nave.set_position(x, y)
+                paralizado = True
+
+            tiro.move_y(400 * janela.delta_time()) 
+            if tiro.y >= altura + tiro.height:
+                tiros_inimigos_esp.remove(tiro)
 
 
-            cronometro += janela.delta_time()
-            if tiros_inimigos != []:
-
-                for tiro in tiros_inimigos:
-                    tiro.draw()
-                    tiro.y += veltiro*janela.delta_time()
-                    if Collision.collided(tiro, nave) and not inv:
-                        vida -= 1
-                        nave = Sprite("pngteste/nave2.png")
-                        nave.x = (janela.width/2)-(nave.width/2)
-                        nave.y = janela.height-100
-                        tiros_inimigos.remove(tiro)
-                        inv = True
-                        cronometro = 0
-
-
-            if cronometro > limite_inv and inv:
+        if(inv):
+            inv_cont += janela.delta_time()
+            if(inv_cont) >= 2:
+                inv_cont = 0
                 inv = False
+                posicao = nave.x
+                nave = Sprite("pngteste/nave.png")
+                nave.x = posicao
+                nave.y = janela.height - 100
+
+        if(paralizado):
+            congelado += janela.delta_time()
+            if (congelado) >= 1.5:
+                congelado = 0
+                paralizado = False
                 x = nave.x
                 y = nave.y
                 nave = Sprite("pngteste/nave.png")
                 nave.set_position(x, y)
-                
 
-            matriz_inimigos, velIx, status = movimento_matriz(matriz_inimigos, velIx, velIy, nave, janela)
+        if(vidas == 0 or c_base == True):
+            nome = input("Qual seu nome?: ")
+            arq = open("ranking.txt", 'a')
 
-        if tiros != []:
-            pontos = acerto_tiro(tiros, matriz_inimigos, pontos)
+            arq.write(f"{nome}: {pontuacao}")
+            arq.write("\n")
+            break
 
+        
 
-
-        if status == False:
-            janela.close()
-
-        if vida == 0:
-            janela.close()
+        for tiro_inimigo in tiros_inimigos:
+            tiro_inimigo.draw()
+        for tiro_inimigo in tiros_inimigos_esp:
+            tiro_inimigo.draw()
+            
+        for tiro in tiros:
+            tiro.draw()
+        
 
         clock.tick(fps)
 
-        janela.draw_text(f"FPS: {fps}", 100, janela.height - 50, 10, (255,255,255), "Arial")
-        janela.draw_text(f"Pontuação: {pontos}", 100, janela.height - 40, 10, (255,255,255), "Arial")
 
-        out_menu = voltar_menu()
+
+        janela.draw_text(f"FPS: {int(fps)}", janela.width -55, 5, size=12, color=(255, 255, 255), font_name="Arial", bold=False, italic=False)
+        janela.draw_text(f"Pontuação: {pontuacao}", 5, 15, size=24, color=(255, 255, 255), font_name="Arial", bold=False, italic=False)
+        janela.draw_text(f"Vidas: {vidas}", 5, 38, size=24, color=(255, 255, 255), font_name="Arial", bold=False, italic=False)    
+
+
+
         janela.update()
+

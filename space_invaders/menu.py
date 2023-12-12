@@ -2,8 +2,9 @@ from PPlay.window import*
 from PPlay.sprite import*
 from PPlay.gameimage import*
 from PPlay.mouse import*
-import jogo
 import dificuldade
+import jogo
+import ranking
 
 
 #Resolução da janela e background
@@ -47,7 +48,7 @@ i_menu = True
 while i_menu:
 
     title.draw()
-    #bg.draw()
+    bg.draw()
     dif.draw()
     rank.draw()
     exit.draw()
@@ -63,6 +64,9 @@ while i_menu:
     if mouse.is_over_object(rank):
         drank.draw()
 
+        if mouse.is_button_pressed(1):
+            ranking.rank()
+
     if mouse.is_over_object(dif):
         ddif.draw()
 
@@ -73,7 +77,8 @@ while i_menu:
         dplay.draw()
 
         if mouse.is_button_pressed(1):
-            jogo.jogo()
+            jogo.jogar()
+            #jogo.jogo()
 
 
     janela.update()
